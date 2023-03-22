@@ -486,7 +486,7 @@ scheduler_fifo(struct cpu *c)
 struct proc*
 scheduler_lifo(struct cpu *c){
 	struct proc *p;
-	int max_time = ticks;
+	int max_time = 0;
 	struct proc *max_proc = 0;
 	for(p = proc; p < &proc[NPROC]; p++){
 		acquire(&p->lock);
