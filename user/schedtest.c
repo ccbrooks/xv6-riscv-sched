@@ -72,7 +72,7 @@ void run(int processes, enum SchedulerChoice sc) {
         // make sure some processes are created a bit later than others
         // (don't sleep() because we don't want anyone else scheduled)
         for(int j = 0; j < 10000000; j++) {}
->>>>>>> Stashed changes
+
         printf("Forking #%d...\n", i);
         if(fork() == 0) {
             int pid = getpid();
