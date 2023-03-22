@@ -491,8 +491,8 @@ scheduler_lifo(struct cpu *c){
 	for(p = proc; p < &proc[NPROC]; p++){
 		acquire(&p->lock);
 		if(p->state ==RUNNABLE){
-			if(p->start_time >= max_time){
-				max_time = p->start_time;
+			if(p->ctime >= max_time){
+				max_time = p->ctime;
 				max_proc = p;
 			}
 		}
