@@ -71,7 +71,9 @@ void run(int processes, enum SchedulerChoice sc) {
     for(int i = 0; i < processes; i++) {
         // make sure some processes are created a bit later than others
         // (don't sleep() because we don't want anyone else scheduled)
+<<<<<<< Updated upstream
         for(int j = 0; j < 10000000; j++) {}
+>>>>>>> Stashed changes
         printf("Forking #%d...\n", i);
         if(fork() == 0) {
             int pid = getpid();
@@ -101,7 +103,7 @@ void run(int processes, enum SchedulerChoice sc) {
     */
     for(int i = 0; i < processes; i++) {
         wait(0);
-        /*
+       /* 
         pid = wait_stats(&ctime, &stime, &etime, &rtime);
         printf("Child %d exited, ctime: %d, stime: %d, etime: %d, rtime: %d\n",
                pid, ctime, stime, etime, rtime);
@@ -130,10 +132,10 @@ int main(int argc, char **argv) {
     printf("With scheduler FIFO\n");
     run(processes, FIFO);
 
-    /*
+    
     printf("With scheduler LIFO\n");
     run(processes, LIFO);
-
+    /*
     printf("With scheduler FAIR\n");
     run(processes, FAIR);
     */

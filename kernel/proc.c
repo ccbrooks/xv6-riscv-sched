@@ -483,6 +483,24 @@ scheduler_fifo(struct cpu *c)
     return min_proc;
 }
 
+struct proc*
+scheduler_lifo(struct cpu *c){
+	struct proc *p;
+	int max_time = ticks;
+	struct proc *max_proc = 0;
+	for(p = proc; p < &proc[NPROC]; p++){
+		acquire(&p->lock);
+		if(p->state ==RUNNABLE){
+			if(p->start_time >= max_time){
+				max_time = p->start_time;
+				max_proc = p;
+			}
+		}
+		release(&p->lock);
+	}
+	return max_proc;
+}
+
 enum SchedulerChoice scheduler_choice = RR;
 
 void set_scheduler(enum SchedulerChoice sc) {
@@ -505,6 +523,9 @@ void scheduler(void) {
             case FIFO:
                 p = scheduler_fifo(c);
                 break;
+	    case LIFO:
+		p = scheduler_lifo(c);
+		break;
             default:
                 p = scheduler_rr(c, last_p);
         }
