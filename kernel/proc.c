@@ -501,6 +501,24 @@ scheduler_lifo(struct cpu *c){
 	return max_proc;
 }
 
+struct proc*
+scheduler_fair(struct cpu *c){
+	struct proc *p;
+	int min_time = ticks;
+	struct proc *min_proc = 0;
+	for(p = proc; p < &proc[NPROC]; p++){
+		acquire(&p->lock);
+		if(p->state == RUNNABLE){
+			if(p->ctime <= min_time){
+				min_time = p->ctime;
+				min_proc = p;
+			}
+		}
+	}
+	return min_proc;
+}
+
+
 enum SchedulerChoice scheduler_choice = RR;
 
 void set_scheduler(enum SchedulerChoice sc) {
