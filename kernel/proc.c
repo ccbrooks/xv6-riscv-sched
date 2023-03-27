@@ -389,8 +389,7 @@ exit(int status)
 // Wait for a child process to exit and return its pid.
 // Return -1 if this process has no children.
 int
-wait(uint64 addr)
-{
+wait_stats(uint64 addr, uint64 pctime, uint64 pstime, uint64 petime, uint64 prtime) {
   struct proc *pp;
   int havekids, pid;
   struct proc *p = myproc();
@@ -415,6 +414,14 @@ wait(uint64 addr)
             release(&wait_lock);
             return -1;
           }
+          if(pctime)
+              copyout(p->pagetable, pctime, (char*)&pp->ctime, sizeof(pp->ctime));
+          if(pstime)
+              copyout(p->pagetable, pstime, (char*)&pp->stime, sizeof(pp->stime));
+          if(petime)
+              copyout(p->pagetable, petime, (char*)&pp->etime, sizeof(pp->etime));
+          if(prtime)
+              copyout(p->pagetable, prtime, (char*)&pp->rtime, sizeof(pp->rtime));
           freeproc(pp);
           release(&pp->lock);
           release(&wait_lock);
@@ -433,6 +440,11 @@ wait(uint64 addr)
     // Wait for a child to exit.
     sleep(p, &wait_lock);  //DOC: wait-sleep
   }
+}
+
+int
+wait(uint64 addr) {
+    return wait_stats(addr, 0, 0, 0, 0);
 }
 
 // Per-CPU process scheduler.

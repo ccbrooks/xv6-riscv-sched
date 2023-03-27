@@ -108,3 +108,5 @@ struct proc {
 };
 
 void set_scheduler(enum SchedulerChoice);
+int wait_stats(uint64, uint64, uint64, uint64, uint64);
+
