@@ -498,22 +498,13 @@ scheduler_fifo(struct cpu *c)
 struct proc*
 scheduler_lifo(struct cpu *c){
 	struct proc *p;
-<<<<<<< Updated upstream
 	int max_time = 0;
-=======
-	int max_time = ticks;
->>>>>>> Stashed changes
 	struct proc *max_proc = 0;
 	for(p = proc; p < &proc[NPROC]; p++){
 		acquire(&p->lock);
 		if(p->state ==RUNNABLE){
-<<<<<<< Updated upstream
 			if(p->ctime >= max_time){
 				max_time = p->ctime;
-=======
-			if(p->start_time >= max_time){
-				max_time = p->start_time;
->>>>>>> Stashed changes
 				max_proc = p;
 			}
 		}
@@ -522,7 +513,6 @@ scheduler_lifo(struct cpu *c){
 	return max_proc;
 }
 
-<<<<<<< Updated upstream
 struct proc*
 scheduler_fair(struct cpu *c){
 	struct proc *p;
@@ -540,9 +530,6 @@ scheduler_fair(struct cpu *c){
 	return min_proc;
 }
 
-
-=======
->>>>>>> Stashed changes
 enum SchedulerChoice scheduler_choice = RR;
 
 void set_scheduler(enum SchedulerChoice sc) {
