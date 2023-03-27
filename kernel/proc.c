@@ -146,6 +146,7 @@ found:
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
   p->ctime = ticks;
+  p->rtime = 0;
 
   return p;
 }
@@ -514,18 +515,20 @@ scheduler_lifo(struct cpu *c){
 }
 
 struct proc*
-scheduler_fair(struct cpu *c){
+scheduler_fair(struct cpu *c)
+{
 	struct proc *p;
 	int min_time = ticks;
 	struct proc *min_proc = 0;
-	for(p = proc; p < &proc[NPROC]; p++){
+	for(p = proc; p < &proc[NPROC]; p++) {
 		acquire(&p->lock);
-		if(p->state == RUNNABLE){
-			if(p->ctime <= min_time){
+		if(p->state == RUNNABLE) {
+			if(p->ctime <= min_time) {
 				min_time = p->ctime;
 				min_proc = p;
 			}
 		}
+		release(&p->lock);
 	}
 	return min_proc;
 }
@@ -568,6 +571,7 @@ void scheduler(void) {
                 p->state = RUNNING;
                 c->proc = p;
                 swtch(&c->context, &p->context);
+		
 
                 // Process is done running for now.
                 // It should have changed its p->state before coming back.
