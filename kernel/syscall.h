@@ -21,3 +21,5 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_set_scheduler 22
+#define SYS_wait_stats 23
+

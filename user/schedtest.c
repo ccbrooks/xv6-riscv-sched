@@ -63,20 +63,13 @@ void heavy_io_with_sieve() {
 void run(int processes, enum SchedulerChoice sc) {
     // use FIFO first so schedtest gets everything started before the children run
     set_scheduler(FIFO);
-    /*
     int total_turnaround_time = 0;
     int total_response_time = 0;
-    */
     // launch all processes
     for(int i = 0; i < processes; i++) {
         // make sure some processes are created a bit later than others
         // (don't sleep() because we don't want anyone else scheduled)
-<<<<<<< Updated upstream
-        for(int j = 0; j < 10000000; j++) {}
-
-=======
         for(int j = 0; j < 1000000000; j++) {}
->>>>>>> Stashed changes
         printf("Forking #%d...\n", i);
         if(fork() == 0) {
             int pid = getpid();
@@ -101,24 +94,22 @@ void run(int processes, enum SchedulerChoice sc) {
     // set scheduler after processes have been created but before the start running (mostly)
     set_scheduler(sc);
     // collect all processes
-    /*
     int ctime, stime, etime, rtime, pid;
-    */
     for(int i = 0; i < processes; i++) {
         wait(0);
        /* 
         pid = wait_stats(&ctime, &stime, &etime, &rtime);
+=======
+        pid = wait_stats(0, (uint64)&ctime, (uint64)&stime, (uint64)&etime, (uint64)&rtime);
+>>>>>>> 959bd348930126615441d735595d7a57cde198fb
         printf("Child %d exited, ctime: %d, stime: %d, etime: %d, rtime: %d\n",
                pid, ctime, stime, etime, rtime);
         total_turnaround_time += (etime-ctime);
         total_response_time += (stime-ctime);
-        */
     }
-    /*
     printf("Total turnaround time: %d, avg: %d\n", total_turnaround_time, (total_turnaround_time / processes));
     printf("Total response time: %d, avg: %d\n", total_response_time, (total_response_time / processes));
     printf("\n");
-    */
 }
 
 int main(int argc, char **argv) {
