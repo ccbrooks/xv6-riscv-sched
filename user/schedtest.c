@@ -97,11 +97,8 @@ void run(int processes, enum SchedulerChoice sc) {
     int ctime, stime, etime, rtime, pid;
     for(int i = 0; i < processes; i++) {
         wait(0);
-       /* 
-        pid = wait_stats(&ctime, &stime, &etime, &rtime);
-=======
+       
         pid = wait_stats(0, (uint64)&ctime, (uint64)&stime, (uint64)&etime, (uint64)&rtime);
->>>>>>> 959bd348930126615441d735595d7a57cde198fb
         printf("Child %d exited, ctime: %d, stime: %d, etime: %d, rtime: %d\n",
                pid, ctime, stime, etime, rtime);
         total_turnaround_time += (etime-ctime);
